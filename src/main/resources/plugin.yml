@@ -1,0 +1,26 @@
+name: EnhancedSurvival
+description: Useful tools to enhance the survival experience
+author: bnt4
+version: ${project.version}
+api-version: 1.21
+main: com.github.bnt4.enhancedsurvival.EnhancedSurvival
+commands:
+  ping:
+    description: Shows your current ping
+  trash:
+    description: Opens an empty inventory and deletes items in it after closing it
+  backpack:
+    aliases: ['bp']
+    description: Shows the crafting recipe for the backpack
+  waypoint:
+    aliases: ['wp']
+    description: List and manage personal and global waypoints
+  navigate:
+    aliases: ['nav']
+    description: Navigate to waypoints, player and coordinates
+  nwg:
+    description: Navigate to global waypoint - shortcut for /navigate waypoint global
+  nwp:
+    description: Navigate to personal waypoint - shortcut for /navigate waypoint personal
+  playtime:
+    description: View your playtime
