@@ -23,6 +23,9 @@ public class PluginConfig implements Config {
     private String customJoinMessage = "";
     private String customQuitMessage = "";
 
+    private boolean isCustomChatFormat;
+    private String customChatFormat = "";
+
     private boolean isBackpacks;
 
     private boolean isGravestones;
@@ -64,6 +67,11 @@ public class PluginConfig implements Config {
         if (isCustomJoinQuitMessages) {
             customJoinMessage = plugin.getConfig().getString("config.custom-join-quit-messages.join");
             customQuitMessage = plugin.getConfig().getString("config.custom-join-quit-messages.quit");
+        }
+
+        isCustomChatFormat = plugin.getConfig().getBoolean("config.custom-chat-format.enabled");
+        if (isCustomChatFormat) {
+            customChatFormat = plugin.getConfig().getString("config.custom-chat-format.format");
         }
 
         isBackpacks = plugin.getConfig().getBoolean("config.backpacks.enabled");
@@ -167,6 +175,16 @@ public class PluginConfig implements Config {
     @Override
     public String getCustomQuitMessage() {
         return customQuitMessage;
+    }
+
+    @Override
+    public boolean isCustomChatFormat() {
+        return isCustomChatFormat;
+    }
+
+    @Override
+    public String getCustomChatFormat() {
+        return customChatFormat;
     }
 
     @Override

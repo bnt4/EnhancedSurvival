@@ -5,7 +5,7 @@
 # Custom variables start with "v-" and only work in messages if they are used in the default messages.
 config:
   # do not change
-  version: 53
+  version: 54
 
   # If enabled, the plugin will check if there are updates and send one message to the console on startup
   check-for-updates: true
@@ -28,6 +28,12 @@ config:
     enabled: false
     join: "<green><v-name> <gray>joined the server"
     quit: "<green><v-name> <gray>left the server"
+
+  # Specify a custom chat message format
+  custom-chat-format:
+    enabled: true
+    # You can also use v-displayname instead of v-name here if needed
+    format: "<green><v-name> <dark_gray>» <white><v-message>"
 
   # Backpacks that can be crafted using the recipe specified below
   # The recipe can be viewed with the /backpack (/bp) command

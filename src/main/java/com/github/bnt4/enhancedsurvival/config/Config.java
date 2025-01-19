@@ -6,6 +6,7 @@ public interface Config extends
         PlaytimeConfig,
         TrashConfig,
         JoinQuitMessageConfig,
+        ChatFormatConfig,
         BackpackConfig,
         RecipeConfig,
         GravestoneConfig,
