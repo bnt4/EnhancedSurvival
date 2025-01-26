@@ -34,7 +34,7 @@ public class UpdaterManager {
                     .header("Content-Type", "application/json;charset=UTF-8")
                     .header("Accept", "application/json")
                     .header("User-Agent", "bnt4/EnhancedSurvival/" + currentVersionNumber)
-                    .timeout(Duration.ofSeconds(10))
+                    .timeout(Duration.ofSeconds(60))
                     .GET()
                     .build();
 
