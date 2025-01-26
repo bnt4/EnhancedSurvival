@@ -24,3 +24,5 @@ commands:
     description: Navigate to personal waypoint - shortcut for /navigate waypoint personal
   playtime:
     description: View your playtime
+  lastonline:
+    description: View the last online date of other players

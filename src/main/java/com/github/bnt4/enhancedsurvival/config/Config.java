@@ -5,6 +5,7 @@ public interface Config extends
         FarmProtectionConfig,
         PlaytimeConfig,
         TrashConfig,
+        LastOnlineConfig,
         JoinQuitMessageConfig,
         ChatFormatConfig,
         BackpackConfig,

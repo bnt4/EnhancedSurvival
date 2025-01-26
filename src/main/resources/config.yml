@@ -5,7 +5,7 @@
 # Custom variables start with "v-" and only work in messages if they are used in the default messages.
 config:
   # do not change
-  version: 55
+  version: 56
 
   # If enabled, the plugin will check if there are updates and send one message to the console on startup
   check-for-updates: true
@@ -22,6 +22,9 @@ config:
   # in this inventory are permanently destroyed when the player closes it.
   # This command is useful for removing items without dropping them in the world.
   trash: true
+
+  # If enabled, the /lastonline command can be used to check when a player was online.
+  last-online: true
 
   # Specify custom join and quit messages for players
   custom-join-quit-messages:

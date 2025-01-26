@@ -19,6 +19,8 @@ public class PluginConfig implements Config {
 
     private boolean isTrash;
 
+    private boolean isLastOnline;
+
     private boolean isCustomJoinQuitMessages;
     private String customJoinMessage = "";
     private String customQuitMessage = "";
@@ -64,6 +66,8 @@ public class PluginConfig implements Config {
         isPlaytime = plugin.getConfig().getBoolean("config.playtime");
 
         isTrash = plugin.getConfig().getBoolean("config.trash");
+
+        isLastOnline = plugin.getConfig().getBoolean("config.last-online");
 
         isCustomJoinQuitMessages = plugin.getConfig().getBoolean("config.custom-join-quit-messages.enabled");
         if (isCustomJoinQuitMessages) {
@@ -164,6 +168,11 @@ public class PluginConfig implements Config {
     @Override
     public boolean isTrash() {
         return isTrash;
+    }
+
+    @Override
+    public boolean isLastOnline() {
+        return isLastOnline;
     }
 
     @Override

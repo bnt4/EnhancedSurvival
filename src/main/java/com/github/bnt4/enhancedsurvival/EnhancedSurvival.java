@@ -2,6 +2,7 @@ package com.github.bnt4.enhancedsurvival;
 
 import com.github.bnt4.enhancedsurvival.backpack.BackpackManager;
 import com.github.bnt4.enhancedsurvival.chatformat.ChatFormatListener;
+import com.github.bnt4.enhancedsurvival.command.LastonlineCommand;
 import com.github.bnt4.enhancedsurvival.command.PingCommand;
 import com.github.bnt4.enhancedsurvival.command.TrashCommand;
 import com.github.bnt4.enhancedsurvival.config.PluginConfig;
@@ -58,6 +59,7 @@ public class EnhancedSurvival extends JavaPlugin {
         // commands
         registerCommand("ping", new PingCommand());
         registerCommand("trash", new TrashCommand(pluginConfig));
+        registerCommand("lastonline", new LastonlineCommand(pluginConfig));
 
         this.getLogger().info("Enabled " + this.getName());
     }
