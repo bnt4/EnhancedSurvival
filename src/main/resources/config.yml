@@ -5,7 +5,7 @@
 # Custom variables start with "v-" and only work in messages if they are used in the default messages.
 config:
   # do not change
-  version: 54
+  version: 55
 
   # If enabled, the plugin will check if there are updates and send one message to the console on startup
   check-for-updates: true
@@ -54,6 +54,14 @@ config:
       top-row: "STRING _ STRING"
       center-row: "STICK CHEST STICK"
       bottom-row: "_ DIAMOND _"
+
+    # If enabled, the name of the backpack item will also be the title of the backpack inventory.
+    # If disabled, the title of the backpack inventory will always be "Backpack".
+    backpack-item-name-as-inventory-title: true
+
+    # If enabled, if a backpack is open, another backpack can be clicked to open it.
+    # This allows switching between multiple backpacks in the inventory easier.
+    allow-inventory-click-to-open: true
 
   recipes:
     # If enabled, rotten flesh can be put in a furnace to get leather

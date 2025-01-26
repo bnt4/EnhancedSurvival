@@ -33,28 +33,7 @@ public class BackpackListener implements Listener {
                 return;
             }
 
-            ItemStack item = event.getItem();
-            ItemMeta meta = item.getItemMeta();
-            PersistentDataContainer container = meta.getPersistentDataContainer();
-
-            String backpackId = container.get(backpackManager.getBackpackIdKey(), PersistentDataType.STRING);
-            if (backpackId == null) {
-                event.getPlayer().sendMessage(Component.text("An error occurred", NamedTextColor.RED));
-                return;
-            }
-
-            if (backpackId.length() == 0) {
-                backpackId = backpackManager.createBackpackId();
-                container.set(backpackManager.getBackpackIdKey(), PersistentDataType.STRING, backpackId);
-                item.setItemMeta(meta);
-            }
-
-            try {
-                new BackpackPlayerMenu(backpackManager, event.getPlayer(), item, backpackId).open();
-            } catch (Exception ex) {
-                event.getPlayer().sendMessage(Component.text("An error occurred while opening this backpack", NamedTextColor.RED));
-                throw new RuntimeException("Error opening backpack " + backpackId + " (action by " + event.getPlayer().getName() + ") - This is most likely due to malformed data in the storage. If somebody modified the backpack data file manually, do not contact the plugin authors - this is your fault.", ex);
-            }
+            backpackManager.openBackpackMenu(event.getPlayer(), event.getItem());
         }
     }
 

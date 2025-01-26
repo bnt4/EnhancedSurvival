@@ -27,6 +27,8 @@ public class PluginConfig implements Config {
     private String customChatFormat = "";
 
     private boolean isBackpacks;
+    private boolean isBackpackItemNameAsInventoryTitle;
+    private boolean isBackpackAllowInventoryClickToOpen;
 
     private boolean isGravestones;
     private int removeGravestoneAfterMinutes;
@@ -75,6 +77,8 @@ public class PluginConfig implements Config {
         }
 
         isBackpacks = plugin.getConfig().getBoolean("config.backpacks.enabled");
+        isBackpackItemNameAsInventoryTitle = plugin.getConfig().getBoolean("config.backpacks.backpack-item-name-as-inventory-title");
+        isBackpackAllowInventoryClickToOpen = plugin.getConfig().getBoolean("config.backpacks.allow-inventory-click-to-open");
 
         isGravestones = plugin.getConfig().getBoolean("config.gravestones.enabled");
         removeGravestoneAfterMinutes = plugin.getConfig().getInt("config.gravestones.remove-after-minutes");
@@ -199,6 +203,16 @@ public class PluginConfig implements Config {
         pattern[1] = plugin.getConfig().getString("config.backpacks.crafting-recipe.center-row");
         pattern[2] = plugin.getConfig().getString("config.backpacks.crafting-recipe.bottom-row");
         return pattern;
+    }
+
+    @Override
+    public boolean isBackpackItemNameAsInventoryTitle() {
+        return isBackpackItemNameAsInventoryTitle;
+    }
+
+    @Override
+    public boolean isBackpackAllowInventoryClickToOpen() {
+        return isBackpackAllowInventoryClickToOpen;
     }
 
     @Override

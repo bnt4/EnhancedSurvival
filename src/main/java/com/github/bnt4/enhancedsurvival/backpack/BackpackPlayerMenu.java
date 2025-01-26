@@ -5,6 +5,7 @@ import com.github.bnt4.enhancedsurvival.util.inventory.CloseHandler;
 import com.github.bnt4.enhancedsurvival.util.inventory.PlayerMenu;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.Style;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -22,7 +23,7 @@ public class BackpackPlayerMenu extends PlayerMenu implements ClickHandler, Clos
     private final String backpackId;
 
     public BackpackPlayerMenu(BackpackManager backpackManager, Player player, ItemStack backpackItem, String backpackId) {
-        super(player, Component.text("Backpack"), 4);
+        super(player, getBackpackInventoryName(backpackItem, backpackManager.getConfig().isBackpackItemNameAsInventoryTitle()), 4);
         this.backpackManager = backpackManager;
 
         this.backpackItem = backpackItem;
@@ -50,6 +51,10 @@ public class BackpackPlayerMenu extends PlayerMenu implements ClickHandler, Clos
                 && event.getCurrentItem().getItemMeta() != null
                 && event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(this.backpackManager.getBackpackIdKey(), PersistentDataType.STRING)) {
             event.setCancelled(true);
+
+            if (this.backpackManager.getConfig().isBackpackAllowInventoryClickToOpen()) {
+                this.backpackManager.openBackpackMenu(player, event.getCurrentItem());
+            }
         }
     }
 
@@ -61,6 +66,16 @@ public class BackpackPlayerMenu extends PlayerMenu implements ClickHandler, Clos
             return;
         }
         this.backpackManager.setItems(this.backpackId, event.getInventory().getContents());
+    }
+
+    private static Component getBackpackInventoryName(ItemStack item, boolean isBackpackItemNameAsInventoryTitle) {
+        if (isBackpackItemNameAsInventoryTitle && item.getItemMeta() != null) {
+            Component displayName = item.getItemMeta().displayName();
+            if (displayName != null) {
+                return displayName.style(Style.empty());
+            }
+        }
+        return Component.text("Backpack");
     }
 
 }

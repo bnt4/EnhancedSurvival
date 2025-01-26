@@ -14,6 +14,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
@@ -106,6 +108,30 @@ public class BackpackManager {
         this.backpackRecipeMenu.open(player);
     }
 
+    public void openBackpackMenu(Player player, ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        PersistentDataContainer container = meta.getPersistentDataContainer();
+
+        String backpackId = container.get(this.getBackpackIdKey(), PersistentDataType.STRING);
+        if (backpackId == null) {
+            player.sendMessage(Component.text("An error occurred", NamedTextColor.RED));
+            return;
+        }
+
+        if (backpackId.length() == 0) {
+            backpackId = this.createBackpackId();
+            container.set(this.getBackpackIdKey(), PersistentDataType.STRING, backpackId);
+            item.setItemMeta(meta);
+        }
+
+        try {
+            new BackpackPlayerMenu(this, player, item, backpackId).open();
+        } catch (Exception ex) {
+            player.sendMessage(Component.text("An error occurred while opening this backpack", NamedTextColor.RED));
+            throw new RuntimeException("Error opening backpack " + backpackId + " (action by " + player.getName() + ") - This is most likely due to malformed data in the storage. If somebody modified the backpack data file manually, do not contact the plugin authors - this is your fault.", ex);
+        }
+    }
+
     public ItemStack getRawBackpack() {
         ItemStack itemStack = new ItemStack(Material.CHEST_MINECART);
         itemStack.editMeta(m -> {
@@ -142,7 +168,6 @@ public class BackpackManager {
     }
 
     public synchronized void setItems(String id, ItemStack[] itemStacks) {
-        JsonObject items = new JsonObject();
         JsonArray array = new JsonArray(itemStacks.length);
         for (ItemStack itemStack : itemStacks) {
             array.add(itemStack == null ? JsonNull.INSTANCE : new JsonPrimitive(ItemSerialization.serializeItemStack(itemStack)));
