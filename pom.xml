@@ -6,7 +6,7 @@
 
     <groupId>com.github.bnt4.enhancedsurvival</groupId>
     <artifactId>enhanced-survival</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
