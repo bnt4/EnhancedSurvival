@@ -5,7 +5,7 @@
 # Custom variables start with "v-" and only work in messages if they are used in the default messages.
 config:
   # do not change
-  version: 56
+  version: 57
 
   # If enabled, the plugin will check if there are updates and send one message to the console on startup
   check-for-updates: true
@@ -35,7 +35,8 @@ config:
   # Specify a custom chat message format
   custom-chat-format:
     enabled: true
-    # You can also use v-displayname instead of v-name here if needed
+    # You can also use v-displayname instead of v-name here if needed.
+    # If you have PlaceholderAPI installed, you can use "<papi:placeholder_name>" to specify placeholders (%placeholder_name% does NOT work!)
     format: "<green><v-name> <dark_gray>» <white><v-message>"
 
   # Backpacks that can be crafted using the recipe specified below
