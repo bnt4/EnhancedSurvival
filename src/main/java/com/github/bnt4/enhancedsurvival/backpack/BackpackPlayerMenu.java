@@ -53,6 +53,7 @@ public class BackpackPlayerMenu extends PlayerMenu implements ClickHandler, Clos
             event.setCancelled(true);
 
             if (this.backpackManager.getConfig().isBackpackAllowInventoryClickToOpen()) {
+                this.backpackManager.setItems(this.backpackId, event.getView().getTopInventory().getContents());
                 this.backpackManager.openBackpackMenu(player, event.getCurrentItem());
             }
         }
