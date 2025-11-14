@@ -28,3 +28,6 @@ commands:
     description: View your playtime
   lastonline:
     description: View the last online date of other players
+  gravestone:
+    description: Admin command to get a copy of gravestone items
+    permission: enhancedsurvival.admin.gravestone
