@@ -17,6 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockFadeEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
@@ -165,9 +166,28 @@ public class GravestoneListener implements Listener {
 
     @EventHandler
     public void onBlockExplode(BlockExplodeEvent event) {
-        if (event.getBlock().getType() == Material.CAMPFIRE) {
-            event.setCancelled(true);
-        }
+        removeGravestones(event.blockList());
+    }
+
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        removeGravestones(event.blockList());
+    }
+
+    /**
+     * Removes all gravestones from the given block list. Used in explode events above,
+     * so that gravestones are not destroyed by explosions, but other blocks are.
+     * @param blocks block list
+     */
+    private void removeGravestones(List<Block> blocks) {
+        blocks.removeIf(block -> {
+            if (block.getType() != Material.CAMPFIRE) {
+                return false;
+            }
+            Campfire campfire = (Campfire) block.getState();
+            String id = campfire.getPersistentDataContainer().get(this.gravestoneManager.getGravestoneIdKey(), PersistentDataType.STRING);
+            return id != null;
+        });
     }
 
 }
