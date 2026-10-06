@@ -1,17 +1,15 @@
 package com.github.bnt4.enhancedsurvival.util.item;
 
+import com.github.bnt4.enhancedsurvival.EnhancedSurvival;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.io.BukkitObjectInputStream;
-import org.bukkit.util.io.BukkitObjectOutputStream;
-import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.util.Base64;
+import java.util.logging.Level;
 
 public class ItemSerialization {
 
     /**
-     * Serializes an {@link ItemStack} to a string using the {@link BukkitObjectOutputStream} and {@link Base64Coder}.
+     * Serializes an {@link ItemStack} to a string using {@link ItemStack#serializeAsBytes()} and the {@link Base64.Encoder}.
      * If an error occurs, null is returned.
      *
      * @param itemStack item to serialize
@@ -20,20 +18,14 @@ public class ItemSerialization {
     public static String serializeItemStack(ItemStack itemStack) {
         if (itemStack == null) return null;
         try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            BukkitObjectOutputStream dataOutput = new BukkitObjectOutputStream(stream);
-            dataOutput.writeObject(itemStack);
-            dataOutput.close();
-            byte[] bytes = stream.toByteArray();
-            stream.close();
-            return Base64Coder.encodeString(Base64Coder.encodeLines(bytes));
+            return Base64.getEncoder().encodeToString(itemStack.serializeAsBytes());
         } catch (Exception ex) {
             return null;
         }
     }
 
     /**
-     * Deserializes an {@link ItemStack} from a string using the {@link BukkitObjectInputStream} and {@link Base64Coder}.
+     * Deserializes an {@link ItemStack} from a string using {@link ItemStack#deserializeBytes(byte[])} and the {@link Base64.Decoder}.
      * If an error occurs, null is returned.
      *
      * @param s string to create the item from
@@ -42,13 +34,15 @@ public class ItemSerialization {
     public static ItemStack deserializeItemStack(String s) {
         if (s == null || s.equals("null")) return null;
         try {
-            ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(Base64Coder.decodeString(s)));
-            BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-            ItemStack itemStack = (ItemStack) dataInput.readObject();
-            dataInput.close();
-            inputStream.close();
-            return itemStack;
+            return ItemStack.deserializeBytes(Base64.getDecoder().decode(s));
         } catch (Exception ex) {
+            // for backwards compatibility, try to deserialize the data with the old method.
+            // they will be overwritten with the newly serialized string on the next save.
+            try {
+                return LegacyItemSerialization.deserializeItemStack(s);
+            } catch (Exception legacyEx) {
+                EnhancedSurvival.LOGGER.log(Level.SEVERE, "Failed to deserialize legacy item base64: " + s, legacyEx);
+            }
             return null;
         }
     }
