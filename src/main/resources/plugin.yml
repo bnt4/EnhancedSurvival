@@ -1,7 +1,7 @@
 name: EnhancedSurvival
 description: Useful tools to enhance the survival experience
 author: bnt4
-version: ${project.version}
+version: ${version}
 api-version: 1.21
 main: com.github.bnt4.enhancedsurvival.EnhancedSurvival
 softdepend:
