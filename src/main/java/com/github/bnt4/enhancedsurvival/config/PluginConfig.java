@@ -121,7 +121,7 @@ public class PluginConfig implements Config {
                 return;
             }
 
-            plugin.getLogger().info("Updating from config version " + currentConfigVersion + " to " + defaultConfigVersion + "...");
+            EnhancedSurvival.LOGGER.info("Updating from config version " + currentConfigVersion + " to " + defaultConfigVersion + "...");
 
             Map<String, Object> currentConfigValues = plugin.getConfig().getValues(true);
             plugin.saveResource("config.yml", true);
@@ -143,9 +143,9 @@ public class PluginConfig implements Config {
 
             plugin.saveConfig();
 
-            plugin.getLogger().info("Updated config version to " + plugin.getConfig().getInt("config.version"));
+            EnhancedSurvival.LOGGER.info("Updated config version to " + plugin.getConfig().getInt("config.version"));
         } catch (Exception ex) {
-            plugin.getLogger().severe("Error updating config version: " + ex.getMessage());
+            EnhancedSurvival.LOGGER.severe("Error updating config version: " + ex.getMessage());
         }
     }
 

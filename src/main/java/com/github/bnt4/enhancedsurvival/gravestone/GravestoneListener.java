@@ -58,7 +58,7 @@ public class GravestoneListener implements Listener {
         } catch (Exception ex) {
             event.setCancelled(true);
             player.sendMessage(Component.text("Error: Invalid gravestone id: " + id));
-            this.plugin.getLogger().warning("Invalid gravestone id " + id + ", " + player.getName() + " tried to break it at " + LocationUtil.formatLocation(campfire.getLocation()));
+            EnhancedSurvival.LOGGER.warning("Invalid gravestone id " + id + ", " + player.getName() + " tried to break it at " + LocationUtil.formatLocation(campfire.getLocation()));
             return;
         }
 
@@ -66,7 +66,7 @@ public class GravestoneListener implements Listener {
         if (gravestoneData == null) {
             event.setCancelled(true);
             player.sendMessage(Component.text("Error: Invalid gravestone id: " + id));
-            this.plugin.getLogger().warning("Invalid gravestone id " + id + ", " + player.getName() + " tried to break it at " + LocationUtil.formatLocation(campfire.getLocation()));
+            EnhancedSurvival.LOGGER.warning("Invalid gravestone id " + id + ", " + player.getName() + " tried to break it at " + LocationUtil.formatLocation(campfire.getLocation()));
             return;
         }
 
@@ -83,7 +83,7 @@ public class GravestoneListener implements Listener {
         }
 
         player.sendMessage(Component.text("Death of " + name + " at " + deathTime));
-        this.plugin.getLogger().info("Gravestone with id " + gravestoneId.toString() + " at " + LocationUtil.formatLocation(location) + " destroyed by " + player.getName());
+        EnhancedSurvival.LOGGER.info("Gravestone with id " + gravestoneId.toString() + " at " + LocationUtil.formatLocation(location) + " destroyed by " + player.getName());
     }
 
     @EventHandler
@@ -119,7 +119,7 @@ public class GravestoneListener implements Listener {
         while (blockLocation.getBlock().getState(false) instanceof TileState) {
             if (counter > 10) {
                 player.sendMessage(Component.text("Location for gravestone blocked - items are dropped normally", NamedTextColor.RED));
-                this.plugin.getLogger().warning("Gravestone of " + player.getName() + " blocked at " + LocationUtil.formatLocation(blockLocation));
+                EnhancedSurvival.LOGGER.warning("Gravestone of " + player.getName() + " blocked at " + LocationUtil.formatLocation(blockLocation));
                 return;
             }
             blockLocation.add(0, 1, 0);
@@ -133,7 +133,7 @@ public class GravestoneListener implements Listener {
             campfire = (Campfire) block.getState();
         } catch (Exception ex) {
             player.sendMessage(Component.text("An error occurred while creating the gravestone - items are dropped normally", NamedTextColor.RED));
-            this.plugin.getLogger().warning("Couldn't pass death event for " + player.getName() + " - doing nothing. Items are dropped normally at " + LocationUtil.formatLocation(player.getLocation()) + ". (" + ex.getMessage() + ")");
+            EnhancedSurvival.LOGGER.warning("Couldn't pass death event for " + player.getName() + " - doing nothing. Items are dropped normally at " + LocationUtil.formatLocation(player.getLocation()) + ". (" + ex.getMessage() + ")");
             return;
         }
         try {
@@ -151,9 +151,9 @@ public class GravestoneListener implements Listener {
                         + TimeUtil.formatDate(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(removeAfterMinutes))) + ")." : ""), NamedTextColor.RED));
             }, 20);
 
-            this.plugin.getLogger().info("Created gravestone " + gravestoneId.toString() + " at " + LocationUtil.formatLocation(block.getLocation()) + " for " + player.getName());
+            EnhancedSurvival.LOGGER.info("Created gravestone " + gravestoneId.toString() + " at " + LocationUtil.formatLocation(block.getLocation()) + " for " + player.getName());
         } catch (Exception ex) {
-            this.plugin.getLogger().warning("Couldn't create gravestone at " + LocationUtil.formatLocation(block.getLocation()) + " for " + player.getName() + ": " + ex.getMessage());
+            EnhancedSurvival.LOGGER.warning("Couldn't create gravestone at " + LocationUtil.formatLocation(block.getLocation()) + " for " + player.getName() + ": " + ex.getMessage());
         }
     }
 

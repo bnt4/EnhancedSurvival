@@ -10,14 +10,11 @@ import org.bukkit.World;
 
 public class MotdManager {
 
-    private final EnhancedSurvival plugin;
-
     private final MotdConfig config;
 
     private World motdWorld;
 
     public MotdManager(EnhancedSurvival plugin, MotdConfig config) {
-        this.plugin = plugin;
         this.config = config;
 
         if (!this.config.isMotd()) {
@@ -25,7 +22,7 @@ public class MotdManager {
             return;
         }
 
-        this.plugin.registerListener(new MotdListener(this));
+        plugin.registerListener(new MotdListener(this));
 
         World configuredMotdWorld = Bukkit.getWorld(this.config.getMotdWorldName());
 
@@ -36,7 +33,7 @@ public class MotdManager {
                 }
                 this.motdWorld = world;
             }
-            plugin.getLogger().warning("Invalid motd world '" + this.config.getMotdWorldName() + "', using '" + this.motdWorld.getName() + "' instead");
+            EnhancedSurvival.LOGGER.warning("Invalid motd world '" + this.config.getMotdWorldName() + "', using '" + this.motdWorld.getName() + "' instead");
             return;
         }
 

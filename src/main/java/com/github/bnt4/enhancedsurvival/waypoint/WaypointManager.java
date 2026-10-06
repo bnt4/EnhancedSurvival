@@ -1,23 +1,25 @@
 package com.github.bnt4.enhancedsurvival.waypoint;
 
-import com.google.gson.*;
 import com.github.bnt4.enhancedsurvival.EnhancedSurvival;
 import com.github.bnt4.enhancedsurvival.config.WaypointConfig;
 import com.github.bnt4.enhancedsurvival.util.file.FileUtil;
 import com.github.bnt4.enhancedsurvival.util.file.JsonFile;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import org.bukkit.Location;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class WaypointManager {
 
-    private final EnhancedSurvival plugin;
     private final WaypointConfig config;
 
     private final JsonFile file;
 
     public WaypointManager(EnhancedSurvival plugin, WaypointConfig config) {
-        this.plugin = plugin;
         this.config = config;
 
         this.file = new JsonFile(plugin.getUserDataFolder(), "waypoints.json", new JsonObject());
@@ -54,7 +56,7 @@ public class WaypointManager {
                 waypoints.add(new Waypoint(entry.getKey(), location));
             } catch (Exception ex) {
                 // Log errors, continue loading other waypoints
-                this.plugin.getLogger().severe("Failed to load waypoint '" + entry.getKey() + "' for uuid " + uniqueIdString + ": " + ex.getMessage());
+                EnhancedSurvival.LOGGER.severe("Failed to load waypoint '" + entry.getKey() + "' for uuid " + uniqueIdString + ": " + ex.getMessage());
             }
         }
         return waypoints;

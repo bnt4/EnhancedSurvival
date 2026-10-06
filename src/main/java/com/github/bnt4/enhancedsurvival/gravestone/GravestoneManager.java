@@ -19,8 +19,6 @@ import java.util.UUID;
 
 public class GravestoneManager {
 
-    private final EnhancedSurvival plugin;
-
     private final GravestoneConfig config;
 
     private final NamespacedKey gravestoneIdKey;
@@ -28,7 +26,6 @@ public class GravestoneManager {
     private final JsonFile file;
 
     public GravestoneManager(EnhancedSurvival plugin, GravestoneConfig config) {
-        this.plugin = plugin;
         this.config = config;
 
         this.gravestoneIdKey = new NamespacedKey(plugin, "gravestone_id");
@@ -36,7 +33,7 @@ public class GravestoneManager {
         this.file = new JsonFile(plugin.getUserDataFolder(), "gravestones.json", new JsonObject());
         this.file.save();
 
-        this.plugin.registerCommand("gravestone", new GravestoneCommand(this));
+        plugin.registerCommand("gravestone", new GravestoneCommand(this));
 
         if (this.config.isGravestones()) {
             plugin.registerListener(new GravestoneListener(plugin, this));
@@ -69,7 +66,7 @@ public class GravestoneManager {
                 GravestoneData gravestoneData = getGravestoneDataFromJsonObject(entry.getValue().getAsJsonObject());
                 identifiers.add(dateFormat.format(gravestoneData.time()) + "_@" + entry.getKey());
             } catch (Exception ex) {
-                this.plugin.getLogger().warning("Failed to load gravestone data - please report this: "
+                EnhancedSurvival.LOGGER.warning("Failed to load gravestone data - please report this: "
                         + ex.getClass().getName() + " - " + ex.getMessage() + " - " + entry.getValue().toString());
             }
         }

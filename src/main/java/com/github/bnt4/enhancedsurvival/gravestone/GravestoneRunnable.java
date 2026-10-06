@@ -1,9 +1,9 @@
 package com.github.bnt4.enhancedsurvival.gravestone;
 
-import com.google.gson.JsonElement;
 import com.github.bnt4.enhancedsurvival.EnhancedSurvival;
 import com.github.bnt4.enhancedsurvival.util.location.LocationUtil;
 import com.github.bnt4.enhancedsurvival.util.time.TimeUtil;
+import com.google.gson.JsonElement;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
@@ -44,7 +44,7 @@ public class GravestoneRunnable implements Runnable {
                 Bukkit.getScheduler().runTask(plugin, () -> {
                     this.gravestoneManager.markGravestoneAsDestroyed(UUID.fromString(entry.getKey()));
                     block.setType(Material.AIR);
-                    this.plugin.getLogger().info("Gravestone " + entry.getKey() + " at " + LocationUtil.formatLocation(gravestoneData.location()) + " has been destroyed automatically because " + this.gravestoneManager.getConfig().removeGravestoneAfterMinutes() + " minutes passed");
+                    EnhancedSurvival.LOGGER.info("Gravestone " + entry.getKey() + " at " + LocationUtil.formatLocation(gravestoneData.location()) + " has been destroyed automatically because " + this.gravestoneManager.getConfig().removeGravestoneAfterMinutes() + " minutes passed");
                     Player player = Bukkit.getPlayer(gravestoneData.playerUniqueId());
                     if (player != null) {
                         player.sendMessage(Component.text("The gravestone containing your items from your death at "
@@ -53,7 +53,7 @@ public class GravestoneRunnable implements Runnable {
                     }
                 });
             } catch (Exception ex) {
-                this.plugin.getLogger().warning("Failed to check expiry of gravestone with id " + entry.getKey());
+                EnhancedSurvival.LOGGER.warning("Failed to check expiry of gravestone with id " + entry.getKey());
             }
         }
     }

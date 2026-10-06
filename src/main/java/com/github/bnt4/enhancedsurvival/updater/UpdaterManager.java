@@ -15,7 +15,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.logging.Logger;
 
 public class UpdaterManager {
 
@@ -23,11 +22,11 @@ public class UpdaterManager {
         // Modrinth project id
         final String projectId = "wZPsPEHH";
         if (config.shouldCheckForUpdates()) {
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> checkForUpdates(plugin.getLogger(), plugin.getDescription().getVersion(), projectId));
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> checkForUpdates(plugin.getDescription().getVersion(), projectId));
         }
     }
 
-    public void checkForUpdates(Logger logger, String currentVersionNumber, String projectId) {
+    public void checkForUpdates(String currentVersionNumber, String projectId) {
         try {
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(getUrlString(projectId)))
@@ -41,46 +40,46 @@ public class UpdaterManager {
             try(final HttpClient httpClient = HttpClient.newHttpClient()) {
                 final HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
                 if (response.statusCode() != 200) {
-                    logger.info("Failed to check for updates: Expected status 200, but got status " + response.statusCode() + " (" + response.body() + ")");
+                    EnhancedSurvival.LOGGER.info("Failed to check for updates: Expected status 200, but got status " + response.statusCode() + " (" + response.body() + ")");
                     return;
                 }
 
                 JsonElement element = JsonParser.parseString(response.body());
                 if (!element.isJsonArray()) {
-                    logger.info("Failed to check for updates: Expected json array as response");
+                    EnhancedSurvival.LOGGER.info("Failed to check for updates: Expected json array as response");
                     return;
                 }
 
                 JsonArray versionElements = element.getAsJsonArray();
                 if (versionElements.size() == 0) {
-                    logger.info("Failed to check for updates: No versions (matching this minecraft version) found");
+                    EnhancedSurvival.LOGGER.info("Failed to check for updates: No versions (matching this minecraft version) found");
                     return;
                 }
 
                 JsonObject latestVersion = versionElements.get(0).getAsJsonObject();
 
                 if (!latestVersion.has("version_number")) {
-                    logger.info("Failed to check for updates: Expected response to have \"version_number\"");
+                    EnhancedSurvival.LOGGER.info("Failed to check for updates: Expected response to have \"version_number\"");
                     return;
                 }
                 String latestVersionNumber = latestVersion.get("version_number").getAsString();
 
                 if (currentVersionNumber.equals(latestVersionNumber)) {
-                    logger.info("You are running the latest version for MC " + Bukkit.getMinecraftVersion());
+                    EnhancedSurvival.LOGGER.info("You are running the latest version for MC " + Bukkit.getMinecraftVersion());
                     return;
                 }
 
                 if (!latestVersion.has("id")) {
-                    logger.info("Failed to check for updates: Expected response to have \"id\"");
+                    EnhancedSurvival.LOGGER.info("Failed to check for updates: Expected response to have \"id\"");
                     return;
                 }
                 String latestVersionId = latestVersion.get("id").getAsString();
 
-                logger.info("Outdated version! Latest for MC " + Bukkit.getMinecraftVersion() + " is " + latestVersionNumber + ", you are running " + currentVersionNumber);
-                logger.info("You can download it here: https://modrinth.com/project/" + projectId + "/version/" + latestVersionId);
+                EnhancedSurvival.LOGGER.info("Outdated version! Latest for MC " + Bukkit.getMinecraftVersion() + " is " + latestVersionNumber + ", you are running " + currentVersionNumber);
+                EnhancedSurvival.LOGGER.info("You can download it here: https://modrinth.com/project/" + projectId + "/version/" + latestVersionId);
             }
         } catch (Exception ex) {
-            logger.info("Failed to check for updates (" + ex.getClass().getName() + "): " + ex.getMessage());
+            EnhancedSurvival.LOGGER.info("Failed to check for updates (" + ex.getClass().getName() + "): " + ex.getMessage());
         }
     }
 

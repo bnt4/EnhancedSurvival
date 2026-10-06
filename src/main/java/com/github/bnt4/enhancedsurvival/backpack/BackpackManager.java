@@ -1,10 +1,14 @@
 package com.github.bnt4.enhancedsurvival.backpack;
 
-import com.google.gson.*;
 import com.github.bnt4.enhancedsurvival.EnhancedSurvival;
 import com.github.bnt4.enhancedsurvival.config.BackpackConfig;
 import com.github.bnt4.enhancedsurvival.util.file.JsonFile;
 import com.github.bnt4.enhancedsurvival.util.item.ItemSerialization;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -18,11 +22,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class BackpackManager {
-
-    private final EnhancedSurvival plugin;
 
     private final BackpackConfig config;
 
@@ -34,7 +38,6 @@ public class BackpackManager {
     private final JsonFile file;
 
     public BackpackManager(EnhancedSurvival plugin, BackpackConfig config) {
-        this.plugin = plugin;
         this.config = config;
 
         this.backpackIdKey = new NamespacedKey(plugin, "backpack_id");
@@ -90,7 +93,7 @@ public class BackpackManager {
                     }
                     patternRow.append(items.get(material));
                 } catch (IllegalArgumentException ex) {
-                    plugin.getLogger().severe("Invalid material '" + materialName + "' while parsing backpack recipe");
+                    EnhancedSurvival.LOGGER.severe("Invalid material '" + materialName + "' while parsing backpack recipe");
                     throw new IllegalArgumentException("Invalid material: " + materialName);
                 }
             }

@@ -1,18 +1,21 @@
 package com.github.bnt4.enhancedsurvival.playtime;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
 import com.github.bnt4.enhancedsurvival.EnhancedSurvival;
 import com.github.bnt4.enhancedsurvival.config.PlaytimeConfig;
 import com.github.bnt4.enhancedsurvival.util.file.JsonFile;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public class PlaytimeManager {
 
-    private final EnhancedSurvival plugin;
     private final PlaytimeConfig config;
 
     private final JsonFile file;
@@ -20,7 +23,6 @@ public class PlaytimeManager {
     private final Map<UUID, Long> playtimeSession;
 
     public PlaytimeManager(EnhancedSurvival plugin, PlaytimeConfig config) {
-        this.plugin = plugin;
         this.config = config;
 
         this.file = new JsonFile(plugin.getUserDataFolder(), "playtime.json", new JsonObject());
@@ -45,7 +47,7 @@ public class PlaytimeManager {
 
     public synchronized void saveActiveSessions() {
         Set<UUID> session = new HashSet<>(this.playtimeSession.keySet());
-        plugin.getLogger().info("Saving " + session.size() + " playtime sessions...");
+        EnhancedSurvival.LOGGER.info("Saving " + session.size() + " playtime sessions...");
         for (UUID uniqueId : session) {
             savePlaytime(uniqueId);
         }
