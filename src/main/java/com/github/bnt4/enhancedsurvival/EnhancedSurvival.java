@@ -8,14 +8,14 @@ import com.github.bnt4.enhancedsurvival.command.TrashCommand;
 import com.github.bnt4.enhancedsurvival.config.PluginConfig;
 import com.github.bnt4.enhancedsurvival.farmprotection.FarmProtectionListener;
 import com.github.bnt4.enhancedsurvival.gravestone.GravestoneManager;
+import com.github.bnt4.enhancedsurvival.joinquitmessage.JoinQuitMessageListener;
 import com.github.bnt4.enhancedsurvival.motd.MotdManager;
+import com.github.bnt4.enhancedsurvival.navigation.NavigationManager;
 import com.github.bnt4.enhancedsurvival.playtime.PlaytimeManager;
 import com.github.bnt4.enhancedsurvival.recipe.RecipeManager;
 import com.github.bnt4.enhancedsurvival.updater.UpdaterManager;
 import com.github.bnt4.enhancedsurvival.util.inventory.MenuListener;
 import com.github.bnt4.enhancedsurvival.waypoint.WaypointManager;
-import com.github.bnt4.enhancedsurvival.joinquitmessage.JoinQuitMessageListener;
-import com.github.bnt4.enhancedsurvival.navigation.NavigationManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -24,18 +24,23 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.logging.Logger;
 
 public class EnhancedSurvival extends JavaPlugin {
+
+    public static Logger LOGGER;
 
     private PlaytimeManager playtimeManager;
 
     @Override
     public void onEnable() {
+        LOGGER = this.getLogger();
+
         PluginConfig pluginConfig = new PluginConfig(this);
         try {
             pluginConfig.reloadConfig();
         } catch (Exception ex) {
-            this.getLogger().severe("Failed to load config: " + ex.getMessage());
+            LOGGER.severe("Failed to load config: " + ex.getMessage());
             this.getServer().getPluginManager().disablePlugin(this);
             return;
         }
@@ -61,7 +66,7 @@ public class EnhancedSurvival extends JavaPlugin {
         registerCommand("trash", new TrashCommand(pluginConfig));
         registerCommand("lastonline", new LastonlineCommand(pluginConfig));
 
-        this.getLogger().info("Enabled " + this.getName());
+        LOGGER.info("Enabled " + this.getName());
     }
 
     @Override
@@ -103,7 +108,7 @@ public class EnhancedSurvival extends JavaPlugin {
                 command.setTabCompleter(tabCompleter);
             }
         } else {
-            this.getLogger().severe("Failed to register command " + name);
+            LOGGER.severe("Failed to register command " + name);
         }
     }
 
