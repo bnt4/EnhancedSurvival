@@ -16,7 +16,7 @@ dependencies {
 }
 
 group = "com.github.bnt4"
-version = "1.2.1"
+version = "1.3.0"
 description = "EnhancedSurvival"
 
 java.toolchain.languageVersion.set(JavaLanguageVersion.of(25))
