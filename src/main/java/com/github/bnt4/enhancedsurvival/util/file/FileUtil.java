@@ -14,6 +14,7 @@ public class FileUtil {
 
     public static final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
+            .disableHtmlEscaping()
             .serializeNulls()
             .create();
 
