@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Represents a JSON file that can be read from and written to disk.
@@ -65,7 +66,7 @@ public class JsonFile {
      * @throws RuntimeException if the file cannot be read or parsed.
      */
     public synchronized void reloadFromDisk() {
-        try (FileReader reader = new FileReader(file)) {
+        try (FileReader reader = new FileReader(file, StandardCharsets.UTF_8)) {
             this.data = FileUtil.GSON.fromJson(reader, JsonObject.class);
         } catch (IOException ex) {
             throw new RuntimeException("Failed to parse json file " + file.getName(), ex);
@@ -78,7 +79,7 @@ public class JsonFile {
      * @throws RuntimeException if the file cannot be written.
      */
     public synchronized void save() {
-        try (FileWriter writer = new FileWriter(file)) {
+        try (FileWriter writer = new FileWriter(file, StandardCharsets.UTF_8)) {
             writer.write(FileUtil.GSON.toJson(data));
             writer.flush();
         } catch (IOException ex) {
